@@ -12,40 +12,43 @@
 #include <stdio.h>
 #include <math.h>
 
-/* global variables */
-/* (Declare your global variables here) */
-
-/* function prototypes */
-/* (Add your function prototypes here) */
-void ddToDMS(int type, float coordinates)
+/* function */
+void DDtoDMS(int type, float coordinates)
 {
+	// convert coordinates into coordinates, minutes, and seconds
+	int coord = coordinates;
+	int minutes = (coordinates - coord) * 60;
+	float seconds = (coordinates - coord - (minutes/60.0)) * 3600;
 
-	int coord = int(coordinates);
-	int minutes = int((coordinates - coord) * 60);
-	int seconds = int((coordinates - coord - minutes/60) * 60);
-
-
+	// depending on what direction, print different strings
 	if (type == 0)
 	{
-		printf("Latitude:  %d, %d minutes, %d seconds\n", &coord, &minutes, &seconds);
+		printf("Latitude:  %d degrees, %d minutes, %f seconds\n", coord, minutes, seconds);
 	}
 	else if (type == 1)
 	{
-		printf("Longitude:  %d, %d minutes, %d seconds\n", &coord, &minutes, &seconds);
+		printf("Longitude:  %d degrees, %d minutes, %f seconds\n", coord, minutes, seconds);
 	}
 }
 
 /* main application code */
 int main( void )
 {
-	float lat;
-	float lon;
+	/* set STDOUT to be non-buffered to that printf() messages display immediately */
+	setbuf(stdout, NULL);
 
-	scanf("Enter latitude in decimal form: %f", &lat);
-	scanf("Enter longitude in decimal form: %f", &lon);
+	float lat = 0;
+	float lon = 0;
 
-	ddToDMS(0, lat);
-	ddToDMS(1, lon);
+	// user input for coordinates
+	printf( "Enter latitude in decimal form: ");
+	scanf("%f", &lat);
+	printf( "Enter longitude in decimal form: ");
+	scanf("%f", &lon);
+
+	// function call to convert coordinates
+	DDtoDMS(0, lat);
+	DDtoDMS(1, lon);
 
 	return 0;
 }
